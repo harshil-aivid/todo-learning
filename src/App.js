@@ -21,10 +21,10 @@ const HARD_CODED_TODO = [
 ];
 
 function App() {
-  const [taskStatus, setTaskStatus] = useState(false);
+  // const [taskStatus, setTaskStatus] = useState(false);
   const [tasks, setTasks] = useState([...HARD_CODED_TODO]);
   const [input, setInput] = useState("");
-  const toggleView = () => setTaskStatus(!taskStatus);
+  // const toggleView = () => setTaskStatus(!taskStatus);
   const handleAdd = () => {
     setTasks([...tasks, { title: input, isComplete: false }]);
     setInput("");
@@ -45,6 +45,10 @@ function App() {
                 ? { ...todo, isComplete: !todo.isComplete }
                 : { ...todo }
             );
+            setTasks(updatedTasks);
+          }}
+          handleRemove={() => {
+            const updatedTasks = tasks.filter((todo, i) => i !== index);
             setTasks(updatedTasks);
           }}
         />
