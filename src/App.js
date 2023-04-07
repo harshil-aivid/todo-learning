@@ -4,17 +4,17 @@ import Todo from "./components/Todo";
 
 const HARD_CODED_TODO = [
   {
-    id: "123",
+    id: 0,
     title: "Eat pakodi",
     isComplete: true,
   },
   {
-    id: "@3",
+    id: 1,
     title: "Timepass",
     isComplete: false,
   },
   {
-    id: "$3243",
+    id: 2,
     title: "Teaching",
     isComplete: false,
   },
@@ -25,16 +25,30 @@ function App() {
   const [tasks, setTasks] = useState([...HARD_CODED_TODO]);
   const [input, setInput] = useState("");
   const toggleView = () => setTaskStatus(!taskStatus);
+
   const handleAdd = () => {
-    setTasks([...tasks, { title: input, isComplete: false }]);
-    setInput("");
+    if (input !== "") {
+      const id = tasks.length;
+      setTasks((prev) => [
+        ...prev,
+        {
+          id: id,
+          title: input,
+          isComplete: false,
+        },
+      ]);
+      setInput("");
+    }
   };
 
   return (
     <div className="App">
       {" "}
       <input value={input} onInput={(e) => setInput(e.target.value)} />
-      <button onClick={handleAdd}> Add </button>
+      <button onClick={handleAdd} disabled={input === ""}>
+        {" "}
+        Add{" "}
+      </button>
       {tasks.map((todoObj, index) => (
         <Todo
           title={todoObj.title}
@@ -47,10 +61,13 @@ function App() {
             );
             setTasks(updatedTasks);
           }}
+          handleDelete={() => {
+            const updatedTasks = tasks.filter((todo, i) => i !== index);
+            setTasks(updatedTasks);
+          }}
         />
-      ))}
+      ))}{" "}
     </div>
   );
 }
-
 export default App;
